@@ -1,0 +1,9 @@
+[package]
+name = "circuit-sim-bevy"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bevy = "*"
+avian2d = "*"
+bevy_dev_tools = "*"
