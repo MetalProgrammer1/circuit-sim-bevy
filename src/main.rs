@@ -86,18 +86,12 @@ fn set_up(mut commands: Commands, asset_server: Res<AssetServer>) {
         Sprite::from_image(asset_server.load("test7.png")),
         Transform::from_xyz(0., 0., 5.).with_scale(Vec3::new(7., 7., 0.)),
     ));
-    commands.spawn((
+    /*commands.spawn((
         Transform::from_xyz(0., 0., 0.),
         Resistor,
         BeginResistor(0),
         EndResistor(0),
-    ));
-    commands.spawn((
-        Transform::from_xyz(0., 10., 0.),
-        Resistor,
-        EndResistor(0),
-        BeginResistor(0),
-    ));
+    ));*/
 }
 
 fn set_up_sensors(
@@ -172,17 +166,14 @@ fn change_direction_or_speed(
         (With<Electron>, Without<Resistor>),
     >,
     mut collision_event_reader: EventReader<CollisionStarted>,
-    resistor_query: Query<
-        (Entity, &BeginResistor, &EndResistor),
-        (With<Resistor>, Without<Electron>),
-    >,
+    resistor_query: Query<(Entity, &BeginResistor), (With<Resistor>, Without<Electron>)>,
 ) {
     let mut collided_electrons = HashSet::new();
     for CollisionStarted(e1, e2) in collision_event_reader.read() {
         collided_electrons.insert(*e1);
         collided_electrons.insert(*e2);
     }
-    for (resistor, begin, end) in &resistor_query {
+    for (resistor, begin) in &resistor_query {
         for (electron, mut numcollisions, mut direction) in &mut electron_query {
             if collided_electrons.contains(&electron) {
                 println!("trigger regular");
@@ -192,8 +183,6 @@ fn change_direction_or_speed(
                     if begin.0 == 1 {
                         println!("trigger 1");
                         direction.4 = 0.6;
-                    } else if end.0 == 1 {
-                        direction.4 = 1.0;
                     }
                 }
                 println!("trigger regular");
