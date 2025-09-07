@@ -19,7 +19,6 @@ fn main() {
                 })
                 .set(ImagePlugin::default_nearest()),
         )
-        //.add_plugins(DefaultPlugins.set(ImagePlugin::default_nearest()))
         .add_systems(Startup, (set_up, set_up_sensors))
         .add_systems(FixedUpdate, change_direction_or_speed)
         .add_systems(
@@ -69,10 +68,7 @@ struct Electron;
 
 #[derive(Component)]
 struct NumCollisions(i32);
-/*
-#[derive(Resource, default)]
-struct Coordinates(Vec2);
-*/
+
 #[derive(Component)]
 struct Resistor;
 
@@ -121,38 +117,26 @@ fn set_up(mut commands: Commands, asset_server: Res<AssetServer>) {
     ));
 }
 
-fn set_up_sensors(
-    mut commands: Commands,
-    //mut meshes: ResMut<Assets<Mesh>>,
-    //mut materials: ResMut<Assets<ColorMaterial>>,
-) {
+fn set_up_sensors(mut commands: Commands) {
     commands.spawn((
-        //Mesh2d(meshes.add(Rectangle::new(40., 245.))),
-        //MeshMaterial2d(materials.add(Color::srgb(0., 0., 0.))),
         Transform::from_xyz(-140., 126., -1.),
         Collider::rectangle(1., 1.),
         Sensor,
         Wall,
     ));
     commands.spawn((
-        //Mesh2d(meshes.add(Rectangle::new(170., 40.))),
-        //MeshMaterial2d(materials.add(Color::srgb(0., 0., 0.))),
         Transform::from_xyz(140., 126., -1.),
         Collider::rectangle(1., 1.),
         Sensor,
         Wall,
     ));
     commands.spawn((
-        //Mesh2d(meshes.add(Rectangle::new(345., 40.))),
-        //MeshMaterial2d(materials.add(Color::srgb(0., 0., 0.))),
         Transform::from_xyz(-140., -126., -1.),
         Collider::rectangle(1., 1.),
         Sensor,
         Wall,
     ));
     commands.spawn((
-        //Mesh2d(meshes.add(Rectangle::new(40., 245.))),
-        //MeshMaterial2d(materials.add(Color::srgb(0., 0., 0.))),
         Transform::from_xyz(140., -126., -1.),
         Collider::rectangle(1., 1.),
         Sensor,
